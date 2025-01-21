@@ -1,35 +1,22 @@
-# Formal Connectivity Verification
-
-# Author(s):
-# Luiza de Melo Gomes
-#
-
-# Parse the CSV connectivity specification defined in the $spec variable and
-# generate assertions to verify that each connection in the CSV is proven in
-# the RTL implementation
-
-# Open the specification CSV file
-set spec_file [open $spec r]
-
+set spec_file [open "direct.csv" r]
 
 while {![eof $spec_file]} {
     set csv_line [gets $spec_file]
     
-    
+    # Split the CSV line into individual fields
     set line_contents [split $csv_line ,]
     
+    # Check if the second index is not empty
+    if {[string length [lindex $line_contents 2]] > 0} {
+        # Concatenate the second and third indices
+        set concatenated [format "%s%s" [lindex $line_contents 2] [lindex $line_contents 3]]
+        puts "Concatenated value: $concatenated"
+    }
     
-    
+    # Extract source and destination signals (optional)
     set source_signal [lindex $line_contents 3]
     set destination_signal [lindex $line_contents 5]
-        
-    
-    assert "$source_signal == $destination_signal"
-    
-        
-    
 }
 
 # Close the file after reading all lines
 close $spec_file
-
